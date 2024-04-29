@@ -1,87 +1,112 @@
 <div>
-  <div>
+  <div class="card-header d-flex align-items-center">
     <h1>
       <%= @the_board.name %>
     </h1>
+  <button class="ms-auto btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#newPostModal">
+    Add Post
+  </button>
   </div>
 </div>
 
-<hr>
+  <!-- Modal -->
+        <div class="modal fade" id="newPostModal" tabindex="-1" aria-labelledby="newPostModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="newPostModalLabel">New post</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/insert_post" method="post">
+                            <div class="mb-3">
+                                <label for="title_box" class="form-label">
+                                              Title
+                                            </label>
 
-<h2>
-  Add a new post
-</h2>
+                                <input type="text" id="title_box" name="query_title" class="form-control">
+                            </div>
 
-<form action="/insert_post" method="post">
-  <div>
-    <label for="title_box">
-      Title
-    </label>
+                            <div class="mb-3">
+                                <label for="body_box" class="form-label">
+                                              Body
+                                            </label>
 
-    <input type="text" id="title_box" name="query_title">
-  </div>
+                                <textarea id="body_box" name="query_body" rows="3" class="form-control"></textarea>
+                            </div>
 
-  <div>
-    <label for="body_box">
-      Body
-    </label>
+                            <div class="mb-3">
+                                <label for="expires_on_box" class="form-label">
+                                              Expires on
+                                            </label>
 
-    <textarea id="body_box" name="query_body" rows="3"></textarea>
-  </div>
+                                <input type="date" id="expires_on_box" name="query_expires_on" class="form-control">
+                            </div>
 
-  <div>
-    <label for="expires_on_box">
-      Expires on
-    </label>
+                            <input type="hidden" id="board_id_box" name="query_board_id" value="27048">
 
-    <input type="date" id="expires_on_box" name="query_expires_on">
-  </div>
+                            <div class="d-grid">
+                                <button class="btn btn-primary">
+                                              Add post
+                                            </button>
+                            </div>
 
-  <input type="hidden" id="board_id_box" name="query_board_id" value="<%= @the_board.id %>">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  <button>
-    Add post
-  </button>
-</form>
+<ul class="nav nav-tabs mb3" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="active-posts-tab" data-bs-toggle="tab" data-bs-target="#active-posts-pane" type="button" role="tab" aria-controls="active-posts-pane" aria-selected="true">Active posts</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="expired-posts-tab" data-bs-toggle="tab" data-bs-target="#expired-posts-pane" type="button" role="tab" aria-controls="expired-posts-pane" aria-selected="false">Expired Posts</button>
+  </li>
+</ul>
 
-<hr>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="active-posts-pane" role="tabpanel" aria-labelledby="active-posts-tab" tabindex="0">
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+               <% @active_posts.each do |a_post| %>
+                <div class="col">
+                 <div class="card">
+                   <div class="card-header">
+                      <h5 class="card-title"><%= a_post.title %></h5>
+                      <div> Expires on <%= a_post.expires_on.strftime("%b %e, %Y")%></div>
+                   </div>
+                   <div class="card-body">
+                     <p> <%=a_post.body%> </p>
+                   </div>
+                   <div class="card-footer">
+                     <%=a_post.created_at.strftime("%b %e, %Y")%>
+                   </div>
+                 </div>
+               </div>
+               <%end%>
+            </div>
+    </div>
+    
+    <div class="tab-pane fade" id="expired-posts-pane" role="tabpanel" aria-labelledby="expired-posts-tab" tabindex="0">
+     <div class="row col-md-12 table-responsive"> 
+       <table class="table table-hover table-striped table-bordered">
+        <tr>
+        <th>Title</th>
+        <th>Body</th>
+        <th>Posted on</th>
+        <th>Expired on</th>
+        </tr>
 
-<h2>Active posts</h2>
-
-<table border="1">
-  <tr>
-    <th>Title</th>
-    <th>Body</th>
-    <th>Posted on</th>
-    <th>Expires on</th>
-  </tr>
-
-  <% @active_posts.each do |a_post| %>
-    <tr>
-      <td><%= a_post.title %></td>
-      <td><%= a_post.body %></td>
-      <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
-      <td><%= a_post.expires_on.strftime("%b %e, %Y") %></td>
-    </tr>
-  <% end %>
-</table>
-
-<h2>Expired posts</h2>
-
-<table border="1">
-  <tr>
-    <th>Title</th>
-    <th>Body</th>
-    <th>Posted on</th>
-    <th>Expired on</th>
-  </tr>
-
-  <% @expired_posts.each do |a_post| %>
-    <tr>
-      <td><%= a_post.title %></td>
-      <td><%= a_post.body %></td>
-      <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
-      <td><%= a_post.expires_on.strftime("%b %e, %Y") %></td>
-    </tr>
-  <% end %>
-</table>
+        <% @expired_posts.each do |a_post| %>
+        <tr>
+        <td><%= a_post.title %></td>
+        <td><%= a_post.body %></td>
+        <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
+        <td><%= a_post.expires_on.strftime("%b %e, %Y") %></td>
+        </tr>
+        <% end %>
+       </table>
+     </div>
+    </div>
+</div>
