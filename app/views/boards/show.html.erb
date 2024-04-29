@@ -1,4 +1,4 @@
-<div>
+<div class="container">
   <div class="card-header d-flex align-items-center">
     <h1>
       <%= @the_board.name %>
@@ -56,17 +56,17 @@
                 </div>
             </div>
         </div>
-
-<ul class="nav nav-tabs mb3" id="myTab" role="tablist">
-  <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="active-posts-tab" data-bs-toggle="tab" data-bs-target="#active-posts-pane" type="button" role="tab" aria-controls="active-posts-pane" aria-selected="true">Active posts</button>
+<div class= "container" >
+<ul class="nav nav-tabs mb-3 align-items-center nav-fill" id="myTab" role="tablist">
+  <li class="nav-item align-items-center" role="presentation">
+    <button class="nav-link active" id="active-posts-tab" data-bs-toggle="tab" data-bs-target="#active-posts-pane" type="button" role="tab" aria-controls="active-posts-pane" aria-selected="true">Active posts(<%=@active_posts.count%>)</button>
   </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="expired-posts-tab" data-bs-toggle="tab" data-bs-target="#expired-posts-pane" type="button" role="tab" aria-controls="expired-posts-pane" aria-selected="false">Expired Posts</button>
+  <li class="nav-item align-items-center nav-fill" role="presentation">
+    <button class="nav-link" id="expired-posts-tab" data-bs-toggle="tab" data-bs-target="#expired-posts-pane" type="button" role="tab" aria-controls="expired-posts-pane" aria-selected="false">Expired Posts(<%=@expired_posts.count%>)</button>
   </li>
 </ul>
 
-<div class="tab-content" id="myTabContent">
+<div class="tab-content align-items-center" id="myTabContent">
     <div class="tab-pane fade show active" id="active-posts-pane" role="tabpanel" aria-labelledby="active-posts-tab" tabindex="0">
             <div class="row row-cols-1 row-cols-md-2 g-4">
                <% @active_posts.each do |a_post| %>
@@ -88,7 +88,7 @@
             </div>
     </div>
     
-    <div class="tab-pane fade" id="expired-posts-pane" role="tabpanel" aria-labelledby="expired-posts-tab" tabindex="0">
+    <div class="tab-pane fade align-items-center" id="expired-posts-pane" role="tabpanel" aria-labelledby="expired-posts-tab" tabindex="0">
      <div class="row col-md-12 table-responsive"> 
        <table class="table table-hover table-striped table-bordered">
         <tr>
@@ -109,4 +109,5 @@
        </table>
      </div>
     </div>
+</div>
 </div>
